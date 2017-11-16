@@ -1,5 +1,4 @@
 # Open-Source-CardNews
-
-Nginx
-Python
-Twisted WSGI
+* Nginx
+* Python
+* Twisted WSGI
