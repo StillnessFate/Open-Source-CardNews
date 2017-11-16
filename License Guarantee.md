@@ -21,7 +21,7 @@ Gymnastic은 이 라이선스들 간 충돌이 없음을 보증하며
 
 Gymnastic의 라이선스는 **MIT License** 를 사용합니다.
 
-2017. 11. 09
+2017. Nov. 09
 
 Gymnastic
 
