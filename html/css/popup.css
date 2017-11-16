@@ -1,0 +1,179 @@
+#mask {
+    display: none;
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+.popup-viewer {
+    width: 600px;
+    height: 700px;
+    visibility: hidden;
+    position: fixed;
+    top: calc(50% - 350px);
+    left: calc(50% - 300px);
+    z-index: 1000;
+}
+
+.popup {
+    display: none;
+    background: #333;
+    padding: 10px;
+    border: 2px solid #555;
+    float: left;
+    font-size: 1.2em;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+    box-shadow: 0px 0px 20px #999;
+    -moz-box-shadow: 0px 0px 20px #999; /* Firefox */
+    -webkit-box-shadow: 0px 0px 20px #999; /* Safari, Chrome */
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari, Chrome */
+}
+
+.popup-new-card {
+    width: 300px;
+}
+
+.popup-edit-card {
+    width: 300px;
+}
+
+.popup-delete-card {
+    width: 300px;
+}
+
+.popup-register {
+    width: 300px;
+}
+
+.popup-login {
+    width: 300px;
+}
+
+#loading {
+    display: none;
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+#loading img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -32px 0 0 -32px;
+    width: 64px;
+    height: 64px;
+    //opacity: 0.8;
+}
+
+
+.popup-register img.btn_close,
+.popup-login img.btn_close,
+.popup-delete-card img.btn_close,
+.popup-new-card img.btn_close,
+.popup-edit-card img.btn_close {
+    cursor: pointer;
+    float: right;
+    margin: -28px -28px 0 0;
+    transition-duration: 0.2s;
+    transform: scale(1);
+}
+
+.popup-viewer img.btn_close {
+    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    transition-duration: 0.2s;
+    transform: scale(1);
+}
+
+    img.btn_close:hover {
+        transition-duration: 0.2s;
+        transform: scale(1.1);
+    }
+
+    img.btn_close:active {
+        transition-duration: 0.2s;
+        transform: scale(1.2);
+    }
+
+form.popup label {
+    display: block;
+    padding-bottom: 7px;
+}
+
+form.popup span {
+    display: block;
+}
+
+form.popup-form p, form.popup-form span {
+    color: #999;
+    font-size: 11px;
+    line-height: 18px;
+}
+
+form.popup-form input {
+    background: #666666;
+    border: 1px solid #222;
+    color: #fff;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font: 13px Arial, Helvetica, sans-serif;
+    padding: 6px 6px 4px;
+    width: 100%;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+}
+    form.popup-form input:invalid {
+        border: 1px solid red !important;
+    }
+
+form.popup-form textarea {
+    background: #666666;
+    border: 1px solid #222;
+    color: #fff;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font: 13px Arial, Helvetica, sans-serif;
+    padding: 6px 6px 4px;
+    width: 100%;
+    resize: none;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.6);
+}
+
+form.popup-form button {
+    cursor: pointer;
+    display: inline-block;
+    padding: 6px 6px 4px;
+    margin-top: 20px;
+    font: 12px;
+    width: 100%;
+}
+
+    form.popup-form button.edit_card_pages {
+        margin-top: 10px;
+    }
+
+
+.red-outline {
+    border: 1px solid red !important;
+}

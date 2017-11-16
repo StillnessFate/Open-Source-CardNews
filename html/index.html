@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>News Cards</title>
+
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css'>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/popup.css">
+    <link rel="stylesheet" type="text/css" href="./slick/slick.css">
+    <link rel="stylesheet" type="text/css" href="./slick/slick-theme.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="banner">
+        <h1><a href="/">Card News</a></h1>
+    </div>
+
+    <!--====================메인 프레임====================-->
+    <div class="main-frame">
+        <button type='button' class="button-s2 refresh" onclick='load_card_news()'><i class="fa fa-refresh"></i></button>
+        <!--=====로그인 영역=====-->
+        <div class="login-frame">
+            <div class="not-logged-in">
+                <a class="login">Login</a>
+                <a>|</a>
+                <a class="register">Register</a>
+            </div>
+            <div class="logged-in">
+                <a class="user-name"></a>
+                <i class="fa fa-user-circle"></i>
+                <a>|</a>
+                <a class="logout">Logout</a>
+            </div>
+        </div>
+
+        <div class="row scrollbar" id="card-table">
+            <!--카드-->
+        </div>
+        <button type='button' class="button-s2 new-card" onclick=''>New Card News</button>
+        <button type='button' class="button-s1" onclick='make_card("zero", "test title", "test text", "https://pbs.twimg.com/profile_images/845534296605646848/iMU6Ityl.jpg", 0)'>카드추가</button>
+        <!--<button type='button' class="button-s1" onclick='test_f()'>테스트</button>-->
+        <div class="info">
+            <a href="License.docx" class="license">License</a>
+            <p>Copyright © Team-Gymnastics 2017. All Rights Reserved.</p>
+            <i class="icon-html5"></i>
+            <i class="icon-css3"></i>
+            <i class="icon-javascript" style="font-size: 30px"></i>
+            <i class="icon-jquery"></i>
+            <i class="icon-python"></i>
+            <i class="icon-nginx"></i>
+            <i class="icon-database"></i>
+        </div>
+
+    </div>
+
+
+    <!--====================회원 가입 팝업====================-->
+    <div id="register-box" class="popup popup-register">
+        <a class="close"><img src="close_pop2.png" class="btn_close" title="Close Window" alt="Close" /></a>
+        <form id="form-register" class="popup-form popup-register-form">
+            <label>
+                <span>Name</span>
+                <input id="register-name" name="name" value="" type="text" onfocus="this.classList.remove('red-outline');" placeholder="Name" maxlength="17">
+            </label>
+
+            <label>
+                <span>ID</span>
+                <input id="register-id" name="id" value="" type="text" onfocus="this.classList.remove('red-outline');" placeholder="ID" maxlength="18">
+            </label>
+
+            <label>
+                <span>Password</span>
+                <input id="register-password" name="password" value="" type="password" onfocus="this.classList.remove('red-outline');" placeholder="Password" maxlength="20">
+            </label>
+
+            <label>
+                <span>Confirm Password</span>
+                <input id="register-confirm-password" name="password" value="" type="password" onfocus="this.classList.remove('red-outline');" placeholder="Confirm Password" maxlength="20">
+            </label>
+
+            <button type="button" class="button-s1 register">Register</button>
+        </form>
+    </div>
+
+    <!--====================로그인 팝업====================-->
+    <div id="login-box" class="popup popup-login">
+        <a class="close"><img src="close_pop2.png" class="btn_close" title="Close Window" alt="Close" /></a>
+        <form id="form-login" class="popup-form popup-login-form">
+            <label>
+                <span>ID</span>
+                <input id="login-id" name="id" value="" type="text" onfocus="this.classList.remove('red-outline');" placeholder="ID" maxlength="18">
+            </label>
+
+            <label>
+                <span>Password</span>
+                <input id="login-password" name="password" value="" type="password" onfocus="this.classList.remove('red-outline');" placeholder="Password" maxlength="20">
+            </label>
+
+            <button type="button" class="button-s1 login">Login</button>
+        </form>
+    </div>
+
+    <!--====================카드뉴스 생성 팝업====================-->
+    <div id="new-card-box" class="popup popup-new-card">
+        <a class="close"><img src="close_pop2.png" class="btn_close" title="Close Window" alt="Close" /></a>
+        <form id="form-new-card" class="popup-form popup-new-card-form">
+            <!--<label>
+                <span>Author</span>
+                <input id="new-card-author" name="author" value="" type="text" autocomplete="on" onfocus="this.classList.remove('red-outline');" placeholder="Author" maxlength="17">
+            </label>-->
+
+            <label>
+                <span>Title</span>
+                <input id="new-card-title" name="title" value="" type="text" autocomplete="on" onfocus="this.classList.remove('red-outline');" placeholder="Title" maxlength="24">
+            </label>
+
+            <label>
+                <span>Contents</span>
+                <textarea class="scrollbar" id="new-card-contents" name="contents" onfocus="this.classList.remove('red-outline');" placeholder="Contents" rows="4" maxlength="64"></textarea>
+                <!--<input id="new-card-contents" name="contents" value="" type="text" autocomplete="on" placeholder="Contents">-->
+            </label>
+
+            <label>
+                <span>Image</span>
+                <input id="new-card-image" name="image" value="" type="text" autocomplete="on" onfocus="this.classList.remove('red-outline');" placeholder="Image" maxlength="2100">
+            </label>
+
+            <!--<label>
+                <span>Password</span>
+                <input id="new-card-password" name="password" value="" type="password" onfocus="this.classList.remove('red-outline');" placeholder="Password" maxlength="20">
+            </label>-->
+
+            <button type="button" class="button-s1 create_new_card">Create new card news</button>
+        </form>
+    </div>
+
+    <!--====================카드뉴스 삭제 팝업====================-->
+    <div id="delete-card-box" class="popup popup-delete-card">
+        <a class="close"><img src="close_pop2.png" class="btn_close" title="Close Window" alt="Close" /></a>
+        <form id="form-delete-card" class="popup-form popup-delete-card-form">
+            <label>
+                <span>Author</span>
+                <input id="new-card-author" name="author" value="" type="text" autocomplete="on" onfocus="this.classList.remove('red-outline');" placeholder="Author" maxlength="17">
+            </label>
+
+            <label>
+                <span>Title</span>
+                <input id="new-card-title" name="title" value="" type="text" autocomplete="on" onfocus="this.classList.remove('red-outline');" placeholder="Title" maxlength="24">
+            </label>
+
+            <label>
+                <span>Contents</span>
+                <textarea class="scrollbar" id="new-card-contents" name="contents" onfocus="this.classList.remove('red-outline');" placeholder="Contents" rows="4" maxlength="64"></textarea>
+            </label>
+
+            <label>
+                <span>Image</span>
+                <input id="new-card-image" name="image" value="" type="text" autocomplete="on" onfocus="this.classList.remove('red-outline');" placeholder="Image" maxlength="2100">
+            </label>
+
+            <label>
+                <span>Password</span>
+                <input id="new-card-password" name="password" value="" type="password" onfocus="this.classList.remove('red-outline');" placeholder="Password" maxlength="20">
+            </label>
+
+            <button type="button" class="button-s1 create_new_card">Create new card news</button>
+        </form>
+    </div>
+
+    <!--====================카드뉴스 수정 팝업====================-->
+    <div id="edit-card-box" class="popup popup-edit-card">
+        <a class="close"><img src="close_pop2.png" class="btn_close" title="Close Window" alt="Close" /></a>
+        <form id="form-edit-card" class="popup-form popup-edit-card-form">
+            <label>
+                <span>Title</span>
+                <input id="edit-card-title" name="title" value="" type="text" autocomplete="on" onfocus="this.classList.remove('red-outline');" placeholder="Title" maxlength="24">
+            </label>
+
+            <label>
+                <span>Contents</span>
+                <textarea class="scrollbar" id="edit-card-contents" name="contents" onfocus="this.classList.remove('red-outline');" placeholder="Contents" rows="4" maxlength="64"></textarea>
+            </label>
+
+            <label>
+                <span>Image</span>
+                <input id="edit-card-image" name="image" value="" type="text" autocomplete="on" onfocus="this.classList.remove('red-outline');" placeholder="Image" maxlength="2100">
+            </label>
+
+            <button type="button" class="button-s1 edit_card_info">Edit card news info</button>
+            <button type="button" class="button-s1 edit_card_pages">Edit card news pages</button>
+        </form>
+    </div>
+
+
+    <!--====================카드뉴스 뷰====================-->
+    <div id="card-news-viewer" class="popup-viewer">
+        <a class="close"><img src="close_pop2.png" class="btn_close" title="Close Window" alt="Close" /></a>
+        <form id="form-viewer" class="popup-viewer-form">
+            <!--<section class="lazy slider" data-sizes="50vw">
+                <div class="slider-box">
+                    <iframe src="/" frameborder="0" width="500" height="700" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+                </div>
+                <div>
+                    <div class="bd-box">2</div>
+                </div>
+                <div>
+                    <div class="bd-box">3</div>
+                </div>
+                <div>
+                    <div class="bd-box">4</div>
+                </div>
+                <div>
+                    <div class="bd-box">5</div>
+                </div>
+            </section>-->
+        </form>
+    </div>
+
+    
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script type="text/javascript" src="js/zero.js"></script>
+    <script src="./slick/slick.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        //make_card("zero", "test title", "test text", "https://pbs.twimg.com/profile_images/845534296605646848/iMU6Ityl.jpg", 0)
+    </script>
+</body>
+</html>

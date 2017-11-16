@@ -1,0 +1,681 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+/*:300,400,700*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: -webkit-linear-gradient(left, #034378, #2d4e68);
+    background-image: linear-gradient(to right, #034378, #2d4e68);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100vh;
+    font-family: "Open Sans", sans-serif;
+    background-color: #707070;
+    background-image: url("https://www.transparenttextures.com/patterns/dark-wood.png");
+    //crissxcross
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    //font-family: "Open Sans", sans-serif;
+    font-weight: 300;
+}
+
+
+iframe {
+    margin: 0 0 0 30px;
+    border: none;
+}
+
+.banner {
+    min-width: 790px;
+    width: 78.5%;
+    height: 180px;
+    margin: 50px auto;
+    border: 2px solid rgba(20, 20, 20, 1);
+    border-radius: 5px;
+    overflow: hidden;
+    background: rgba(20, 20, 20, 1);
+    background-image: url("https://www.transparenttextures.com/patterns/dark-mosaic.png");
+    box-shadow: 0 8px 19px rgba(0, 0, 0, 0.3), 0 5px 12px rgba(0, 0, 0, 0.2);
+}
+
+.main-frame {
+    min-width: 790px;
+    width: 79%;
+    height: 880px;
+    margin: 50px auto;
+    border: 2px solid rgba(20, 20, 20, 0.8);
+    border-radius: 5px;
+    overflow: auto;
+    background: rgba(20, 20, 20, 0.8);
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.2);
+}
+
+.login-frame {
+    min-width: 200px;
+    height: 37px;
+    margin: 10px 32px 0px 0px;
+    display: block;
+    float: right;
+    border: 1px solid rgba(20, 20, 20, 0.8);
+    border-radius: 5px;
+    overflow: hidden;
+    background: rgba(20, 20, 20, 0.8);
+}
+
+    .login-frame .not-logged-in {
+        color: #FFF;
+        margin: 5px 0px 0px 40px;
+        overflow: hidden;
+    }
+
+    .login-frame .logged-in {
+        color: #FFF;
+        float: right;
+        margin: 5px 10px 0px 10px;
+        display: none;
+        overflow: hidden;
+    }
+
+    .login-frame .login,
+    .login-frame .register,
+    .login-frame .logout {
+        cursor: pointer;
+        color: #FFF;
+        transition-duration: 0.2s;
+        text-decoration: none;
+    }
+        .login-frame .login:hover,
+        .login-frame .register:hover,
+        .login-frame .logout:hover {
+            transition-duration: 0.2s;
+            color: #bbb;
+        }
+        .login-frame .login:active,
+        .login-frame .register:active,
+        .login-frame .logout:active {
+            transition-duration: 0.2s;
+            color: #999;
+        }
+
+
+/*====크롬 전용====*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .main-frame {
+        min-width: 780px;
+        width: 78.5%;
+    }
+
+    .banner {
+        min-width: 780px;
+    }
+}
+
+.row {
+    height: 515px;
+    margin: 55px 30px auto;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: rgba(0, 0, 0, 1);
+    background-image: url("https://www.transparenttextures.com/patterns/escheresque-dark.png");
+    -webkit-box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+}
+
+.info {
+    position: absolute;
+    margin: 220px 30px auto;
+    //text-align: center;
+    font-size: 12px;
+    color: #666;
+    line-height: 1;
+    font-weight: 700;
+    padding: 3px 10px;
+    //border: 1px solid;
+    border-radius: 5px;
+}
+
+    .info i {
+        font-size: 25px;
+    }
+
+    .info .license {
+        color: #666;
+        text-decoration: underline;
+    }
+
+/*====================기본 카드 기본====================*/
+
+.card {
+    float: left;
+    padding: 1.7rem 1.7rem;
+    width: 350px;
+    transition-duration: 0.5s;
+    transform: scale(1);
+}
+
+    .card:hover {
+        transition-duration: 0.5s;
+        transform: scale(1.05);
+    }
+
+    .card .wrapper {
+        background-color: #fff;
+        min-height: 440px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.2);
+    }
+
+        .card .wrapper:hover .data {
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+    .card .data {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        -webkit-transform: translateY(calc(70px + 1em));
+        transform: translateY(calc(70px + 1em));
+        -webkit-transition: -webkit-transform 0.3s;
+        transition: -webkit-transform 0.3s;
+        transition: transform 0.3s;
+    }
+
+        .card .data .content {
+            padding: 1em;
+            position: relative;
+            z-index: 1;
+        }
+
+    .card .author {
+        font-size: 12px;
+        display: block;
+        word-break: break-all;
+    }
+
+    .card .title {
+        margin-top: 10px;
+        display: block;
+        word-break: break-all;
+    }
+
+    .card .text {
+        height: 70px;
+        margin: 0;
+        display: block;
+        word-break: break-all;
+    }
+
+    .card input[type='checkbox'] {
+        display: none;
+    }
+
+        .card input[type='checkbox']:checked + .menu-content {
+            -webkit-transform: translateY(-60px);
+            transform: translateY(-60px);
+        }
+
+    /*====================공유 메뉴 기본====================*/
+
+    .card .menu-content {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+        .card .menu-content::before, .card .menu-content::after {
+            content: '';
+            display: table;
+        }
+
+        .card .menu-content::after {
+            clear: both;
+        }
+
+        .card .menu-content li {
+            display: inline-block;
+        }
+
+        .card .menu-content a {
+            //color: #fff;
+        }
+
+        .card .menu-content span {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Open Sans';
+            -webkit-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+        }
+
+/*====================카드 커스텀====================*/
+
+.card-type-1 .wrapper {
+    background: none;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+    .card-type-1 .wrapper:hover .menu-content span {
+        -webkit-transform: translate(-50%, -10px);
+        transform: translate(-50%, -10px);
+        opacity: 1;
+    }
+
+.card-type-1 .header {
+    color: #fff;
+    padding: 1em;
+}
+
+    .card-type-1 .header::before, .card-type-1 .header::after {
+        content: '';
+        display: table;
+    }
+
+    .card-type-1 .header::after {
+        clear: both;
+    }
+
+    .card-type-1 .header .date {
+        float: left;
+        font-size: 12px;
+    }
+
+
+.card-type-1 .data {
+    color: #fff;
+    -webkit-transform: translateY(calc(70px + 4em));
+    transform: translateY(calc(70px + 4em));
+}
+
+.card-type-1 .title a {
+    cursor: pointer;
+    color: #fff;
+    transition-duration: 0.2s;
+}
+
+    .card-type-1 .title a:hover {
+        transition-duration: 0.2s;
+        color: #bbb;
+    }
+
+    .card-type-1 .title a:active {
+        transition-duration: 0.2s;
+        color: #999;
+    }
+
+.card-type-1 .bottom-menu {
+    display: block;
+    width: 100%;
+    height: 12px;
+    margin: 2em auto 1em;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+    line-height: 1;
+    position: relative;
+    font-weight: 700;
+}
+
+    .card-type-1 .bottom-menu .edit {
+        cursor: pointer;
+        position: absolute;
+        left: 35px;
+        //bottom: 8px;
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+        line-height: 1;
+        font-weight: 700;
+        padding: 3px 10px;
+        border: 1px solid;
+        border-radius: 5px;
+    }
+
+    .card-type-1 .bottom-menu .delete {
+        cursor: pointer;
+        position: absolute;
+        right: 35px;
+        //bottom: 8px;
+        text-align: center;
+        font-size: 12px;
+        color: #fff;
+        line-height: 1;
+        font-weight: 700;
+        padding: 3px 10px;
+        border: 1px solid;
+        border-radius: 5px;
+        transition-duration: 0.2s;
+    }
+
+        .card-type-1 .bottom-menu .edit:hover,
+        .card-type-1 .bottom-menu .delete:hover {
+            transition-duration: 0.2s;
+            color: #bbb;
+        }
+
+        .card-type-1 .bottom-menu .edit:active,
+        .card-type-1 .bottom-menu .delete:active {
+            transition-duration: 0.2s;
+            color: #999;
+        }
+
+/*====================공유 메뉴 커스텀====================*/
+
+.card-type-1 .menu-content {
+    float: right;
+}
+
+    .card-type-1 .menu-content li {
+        margin: 0 5px;
+        position: relative;
+    }
+
+    .card-type-1 .menu-content span {
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        opacity: 0;
+    }
+
+/*====================공유하기====================*/
+
+/*====아이콘 메뉴====*/
+.share-social.icon {
+    margin: 0px 3px;
+    transition-duration: 0.5s;
+    transform: scale(1);
+    cursor: pointer;
+    color: #fff;
+}
+
+    .share-social.icon:hover {
+        transition-duration: 0.5s;
+        transform: scale(1.1);
+    }
+
+    .share-social.icon:active {
+        transition-duration: 0.2s;
+        transform: scale(1.2);
+    }
+
+/*====아이콘====*/
+.share-icon {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    transition: all 0.3s ease;
+    z-index:3;
+}
+
+    .share-icon.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+        .share-icon.active.facebook {
+            transform: translateY(42px);
+            transition: all 0.3s ease;
+        }
+
+        .share-icon.active.twitter {
+            transform: translateY(87px);
+            transition: all 0.3s ease;
+        }
+
+        .share-icon.active.google {
+            transform: translateY(132px);
+            transition: all 0.3s ease;
+        }
+
+    .share-icon .icon {
+        display: inline-block;
+        cursor: pointer;
+        color: black;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: #fff;
+        transition: all 0.3s ease;
+        outline: 0;
+        box-shadow: 0 2px 4px rgba(0,0,0, 0.12), 0 2px 4px rgba(0,0,0, 0.24);
+        transition-duration: 0.5s;
+        transform: scale(1);
+    }
+
+        .share-icon .icon:hover {
+            transition-duration: 0.5s;
+            transform: scale(1.1);
+        }
+
+        .share-icon .icon:active {
+            transition-duration: 0.2s;
+            transform: scale(1.2);
+        }
+
+/*====================스크롤 바====================*/
+
+.scrollbar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+    border-radius: 10px;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 12px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #555;
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
+}
+
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #666;
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb:active {
+        background-color: #777;
+    }
+
+
+
+/*====================버튼====================*/
+
+.button-s1 {
+    -moz-box-shadow: inset 0px -3px 7px 0px #808080;
+    -webkit-box-shadow: inset 0px -3px 7px 0px #808080;
+    box-shadow: inset 0px -3px 7px 0px #808080;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #757575), color-stop(1, #4f4f4f));
+    background: -moz-linear-gradient(top, #757575 5%, #4f4f4f 100%);
+    background: -webkit-linear-gradient(top, #757575 5%, #4f4f4f 100%);
+    background: -o-linear-gradient(top, #757575 5%, #4f4f4f 100%);
+    background: -ms-linear-gradient(top, #757575 5%, #4f4f4f 100%);
+    background: linear-gradient(to bottom, #757575 5%, #4f4f4f 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#757575', endColorstr='#4f4f4f',GradientType=0);
+    background-color: #757575;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #3d3d3d;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    padding: 9px 23px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #242424;
+}
+
+    .button-s1:hover {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #4f4f4f), color-stop(1, #757575));
+        background: -moz-linear-gradient(top, #4f4f4f 5%, #757575 100%);
+        background: -webkit-linear-gradient(top, #4f4f4f 5%, #757575 100%);
+        background: -o-linear-gradient(top, #4f4f4f 5%, #757575 100%);
+        background: -ms-linear-gradient(top, #4f4f4f 5%, #757575 100%);
+        background: linear-gradient(to bottom, #4f4f4f 5%, #757575 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f', endColorstr='#757575',GradientType=0);
+        background-color: #4f4f4f;
+    }
+
+    .button-s1:active {
+        position: relative;
+        top: 1px;
+    }
+
+.main-frame .button-s1 {
+    float: right;
+    margin: 30px 0 0 30px;
+}
+
+.button-s2 {
+    -moz-box-shadow: inset 0px -3px 7px 0px #5c5c5c;
+    -webkit-box-shadow: inset 0px -3px 7px 0px #5c5c5c;
+    box-shadow: inset 0px -3px 7px 0px #5c5c5c;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #4a4a4a), color-stop(1, #242424));
+    background: -moz-linear-gradient(top, #4a4a4a 5%, #242424 100%);
+    background: -webkit-linear-gradient(top, #4a4a4a 5%, #242424 100%);
+    background: -o-linear-gradient(top, #4a4a4a 5%, #242424 100%);
+    background: -ms-linear-gradient(top, #4a4a4a 5%, #242424 100%);
+    background: linear-gradient(to bottom, #4a4a4a 5%, #242424 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4a4a4a', endColorstr='#242424',GradientType=0);
+    background-color: #4a4a4a;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #3d3d3d;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    padding: 9px 23px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #242424;
+}
+
+    .button-s2:hover {
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #242424), color-stop(1, #4a4a4a));
+        background: -moz-linear-gradient(top, #242424 5%, #4a4a4a 100%);
+        background: -webkit-linear-gradient(top, #242424 5%, #4a4a4a 100%);
+        background: -o-linear-gradient(top, #242424 5%, #4a4a4a 100%);
+        background: -ms-linear-gradient(top, #242424 5%, #4a4a4a 100%);
+        background: linear-gradient(to bottom, #242424 5%, #4a4a4a 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#242424', endColorstr='#4a4a4a',GradientType=0);
+        background-color: #242424;
+    }
+
+    .button-s2:active {
+        position: relative;
+        top: 1px;
+    }
+
+.main-frame .button-s2 {
+    float: right;
+    margin: 30px 30px auto;
+}
+
+    .main-frame .button-s2.refresh {
+        float: left;
+        margin: 10px 32px auto;
+    }
+
+
+
+/*====================배너====================*/
+
+.banner h1 {
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+    font-size: 82px;
+    text-align: center;
+    /*text-transform: uppercase;*/
+    text-rendering: optimizeLegibility;
+    margin: 0px;
+    margin-top: 15px;
+    color: #e0dfdc;
+    letter-spacing: .1em;
+    text-shadow: 0 -1px 0 #fff, 0 1px 0 #2e2e2e, 0 2px 0 #2c2c2c, 0 3px 0 #2a2a2a, 0 4px 0 #282828, 0 5px 0 #262626, 0 6px 0 #242424, 0 7px 0 #222, 0 8px 0 #202020, 0 9px 0 #1e1e1e, 0 10px 0 #1c1c1c, 0 11px 0 #1a1a1a, 0 12px 0 #181818, 0 13px 0 #161616, 0 14px 0 #141414, 0 15px 0 #121212, 0 22px 30px rgba(0, 0, 0, 0.9);
+}
+
+    .banner h1 a {
+        color: #e0dfdc;
+        cursor: pointer;
+    }
+
+
+
+/*====================슬릭====================*/
+
+.slider {
+    width: 100%;
+    margin: auto;
+}
+
+.slick-slide {
+    margin: 0px 20px;
+}
+
+    .slick-slide img {
+        width: 100%;
+    }
+
+.slick-prev:before,
+.slick-next:before {
+    color: black;
+}
+
+
+.slick-slide {
+    transition: all ease-in-out .3s;
+    opacity: .2;
+}
+
+.slick-active {
+    opacity: .5;
+}
+
+.slick-current {
+    opacity: 1;
+}
+
+.bd-box {
+    width: 500px;
+    height: 700px;
+    margin: 0 0 0 30px;
+    //border: 1px solid red;
+    display: inline-block;
+    border: 30px solid transparent;
+    border-color: crimson cornflowerblue gold lightgreen;
+}
+
+.slider-box {
+    width: 500px;
+    height: 700px;
+    margin: auto;
+    border: none;
+    /*border: 30px solid transparent;
+    border-color: crimson cornflowerblue gold lightgreen;*/
+}
+    
+    .slider-box .edit-page {
+        position: absolute;
+        margin: 10px 0px 0px -83px;
+        /*border-color: crimson cornflowerblue gold lightgreen;*/
+    }
