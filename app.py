@@ -21,7 +21,8 @@ if (rows[0][0] == 0) :
 		"author   TEXT,"
 		"title    TEXT,"
 		"text     TEXT,"
-		"image    TEXT"
+		"image    TEXT,"
+		"pages    INTEGER"
 		")"
 	)
 	cur.execute(query)
@@ -44,20 +45,9 @@ def app(environ, start_response):
 	print(environ)
 	print()
 	if (environ['PATH_INFO'] == '/store.py') :
-		if ('HTTP_CONTENT_LENGTH' in environ and environ['HTTP_CONTENT_LENGTH']) :
-			data = environ['wsgi.input'].read(int(environ['HTTP_CONTENT_LENGTH']))
-			f=open('data/cards/{0}/{1}.json'.format(get_item_query('id',environ['QUERY_STRING']), get_item_query('page',environ['QUERY_STRING'])), 'wb')
-			f.write(data)
-			f.close()
+		return grapesjs_store(environ)
 	elif (environ['PATH_INFO'] == '/load.py' and environ['REQUEST_METHOD'] == 'GET') :
-		path = 'data/cards/{0}/{1}.json'.format(get_item_query('id',environ['QUERY_STRING']), get_item_query('page',environ['QUERY_STRING']))
-		if os.path.isdir(path):
-			f=open(path, 'r')
-		else:
-			f=open('data/empty.json', 'r')
-		data = f.read()
-		f.close()
-		return [data.encode('utf-8')]
+		return grapesjs_load(environ)
 	elif (environ['PATH_INFO'] == '/load-cards.py' and environ['REQUEST_METHOD'] == 'GET') :
 		return send_card_list(environ)
 	elif (environ['PATH_INFO'] == '/new-card.py' and environ['REQUEST_METHOD'] == 'POST') :
@@ -72,11 +62,118 @@ def app(environ, start_response):
 		return edit_card(environ)
 	elif (environ['PATH_INFO'] == '/session-check.py' and environ['REQUEST_METHOD'] == 'GET') :
 		return session_check(environ)
+	elif (environ['PATH_INFO'] == '/page_add.py' and environ['REQUEST_METHOD'] == 'POST') :
+		return page_add(environ)
+	elif (environ['PATH_INFO'] == '/page_delete.py' and environ['REQUEST_METHOD'] == 'POST') :
+		return page_delete(environ)
 	elif (environ['PATH_INFO'] == '/grapesjs-dev/page_file_save.py' and environ['REQUEST_METHOD'] == 'POST') :
 		return page_file_save(environ)
 	elif (environ['PATH_INFO'] == '/asset.py' and environ['REQUEST_METHOD'] == 'POST') :
 		return 0
 	return [''.encode('utf-8')]
+
+
+def page_add(environ):
+	json_data=OrderedDict()
+	content = environ["wsgi.input"].read()
+	content = json.loads(content)
+
+	session_id = get_session_id_by_cookie(environ)
+	if (session_id == None):
+		json_data['error']=10
+		data=json.dumps(json_data, ensure_ascii=False, indent="\t")
+		return [data.encode('utf-8')]
+
+	session = search_session('session_id', session_id)
+	if (session == None):
+		json_data['error']=10
+		data=json.dumps(json_data, ensure_ascii=False, indent="\t")
+		return [data.encode('utf-8')]
+
+	query=("SELECT * FROM card WHERE id='{0}'".format(content['id']))
+	cur.execute(query)
+	rows = cur.fetchall()
+	if (0 < len(rows)):
+		if (rows[0][1] != session['name']):
+			json_data['error']=2
+			data =json.dumps(json_data, ensure_ascii=False, indent="\t")
+			return [data.encode('utf-8')]
+	else:
+		json_data['error']=1
+		data =json.dumps(json_data, ensure_ascii=False, indent="\t")
+		return [data.encode('utf-8')]
+
+	if (content['page'] <= rows[0][5]):
+		for x in range(rows[0][5], content['page'] - 1, -1):
+			os.rename("html/cards/{0}/{1}.html".format(rows[0][0], x), "html/cards/{0}/{1}.html".format(rows[0][0], x + 1))
+
+	f = open("html/cards/{0}/{1}.html".format(rows[0][0], content['page']), 'w+')
+	f.close()
+
+	query=(
+		"UPDATE card SET pages='{0}'".format(
+			rows[0][5] + 1
+			)
+		)
+	cur.execute(query)
+	conn.commit()
+	
+	json_data['error']=0
+	data=json.dumps(json_data, ensure_ascii=False, indent="\t")
+
+	return [data.encode('utf-8')]
+
+def page_delete(environ):
+	json_data=OrderedDict()
+	content = environ["wsgi.input"].read()
+	content = json.loads(content)
+
+	session_id = get_session_id_by_cookie(environ)
+	if (session_id == None):
+		json_data['error']=10
+		data=json.dumps(json_data, ensure_ascii=False, indent="\t")
+		return [data.encode('utf-8')]
+
+	session = search_session('session_id', session_id)
+	if (session == None):
+		json_data['error']=10
+		data=json.dumps(json_data, ensure_ascii=False, indent="\t")
+		return [data.encode('utf-8')]
+
+	query=("SELECT * FROM card WHERE id='{0}'".format(content['id']))
+	cur.execute(query)
+	rows = cur.fetchall()
+	if (0 < len(rows)):
+		if (rows[0][1] != session['name']):
+			json_data['error']=2
+			data =json.dumps(json_data, ensure_ascii=False, indent="\t")
+			return [data.encode('utf-8')]
+	else:
+		json_data['error']=1
+		data =json.dumps(json_data, ensure_ascii=False, indent="\t")
+		return [data.encode('utf-8')]
+
+	if (content['page'] < rows[0][5]):
+		os.remove("html/cards/{0}/{1}.html".format(rows[0][0], content['page']))
+		if os.path.isfile("data/cards/{0}/{1}.json".format(rows[0][0], content['page'])):
+			os.remove("data/cards/{0}/{1}.json".format(rows[0][0], content['page']))
+		for x in range(content['page'] + 1, rows[0][5] + 1):
+			os.rename("html/cards/{0}/{1}.html".format(rows[0][0], x), "html/cards/{0}/{1}.html".format(rows[0][0], x - 1))
+			if os.path.isfile("data/cards/{0}/{1}.json".format(rows[0][0], x)):
+				os.rename("data/cards/{0}/{1}.json".format(rows[0][0], x), "data/cards/{0}/{1}.json".format(rows[0][0], x - 1))
+
+	query=(
+		"UPDATE card SET pages='{0}'".format(
+			rows[0][5] - 1
+			)
+		)
+	cur.execute(query)
+	conn.commit()
+	
+	json_data['error']=0
+	data=json.dumps(json_data, ensure_ascii=False, indent="\t")
+
+	return [data.encode('utf-8')]
 
 def page_file_save(environ):
 	json_data=OrderedDict()
@@ -84,18 +181,36 @@ def page_file_save(environ):
 	content = json.loads(content)
 	print(content)#====TEST
 
-	f=open('nginx-1.13.6/html/cards/{0}/{1}.html'.format(content['id'], content['page']), 'w')
+	f=open('html/cards/{0}/{1}.html'.format(content['id'], content['page']), 'w')
 	f.write('<link rel="stylesheet" href="{0}.css">'.format(content['page']))
 	f.write(content['html'])
 	f.close()
 
-	f=open('nginx-1.13.6/html/cards/{0}/{1}.css'.format(content['id'], content['page']), 'w')
+	f=open('html/cards/{0}/{1}.css'.format(content['id'], content['page']), 'w')
 	f.write(content['css'])
 	f.close()
 	
 	json_data['error']=0
 	data=json.dumps(json_data, ensure_ascii=False, indent="\t")
 
+	return [data.encode('utf-8')]
+
+def grapesjs_store(environ):
+	if ('HTTP_CONTENT_LENGTH' in environ and environ['HTTP_CONTENT_LENGTH']) :
+			data = environ['wsgi.input'].read(int(environ['HTTP_CONTENT_LENGTH']))
+			f=open('data/cards/{0}/{1}.json'.format(get_item_query('id',environ['QUERY_STRING']), get_item_query('page',environ['QUERY_STRING'])), 'wb')
+			f.write(data)
+			f.close()
+	return [''.encode('utf-8')]
+
+def grapesjs_load(environ):
+	path = 'data/cards/{0}/{1}.json'.format(get_item_query('id',environ['QUERY_STRING']), get_item_query('page',environ['QUERY_STRING']))
+	if os.path.isfile(path):#isdir
+		f=open(path, 'r')
+	else:
+		f=open('data/empty.json', 'r')
+	data = f.read()
+	f.close()
 	return [data.encode('utf-8')]
 
 def session_check(environ):
@@ -132,6 +247,7 @@ def send_card_list(environ):
 		card['title']=row[2]
 		card['text']=row[3]
 		card['image']=row[4]
+		card['pages']=row[5]
 		cards.append(card)
 
 	json_data['cards']=cards
@@ -159,12 +275,13 @@ def create_new_card(environ):
 		return [data.encode('utf-8')]
 
 	query=(
-		"INSERT INTO card (author, title, text, image) VALUES"
-		"('{0}', '{1}', '{2}', '{3}')".format(
+		"INSERT INTO card (author, title, text, image, pages) VALUES"
+		"('{0}', '{1}', '{2}', '{3}', '{4}')".format(
 			session['name'],
 			content['title'],
 			content['text'],
 			content['image'],
+			0
 			)
 		)
 	cur.execute(query)
@@ -177,7 +294,7 @@ def create_new_card(environ):
 	cur.execute(query)
 	rows = cur.fetchall()
 	os.mkdir("data/cards/{0}".format(rows[0][0]))
-	os.mkdir("nginx-1.13.6/html/cards/{0}".format(rows[0][0]))
+	os.mkdir("html/cards/{0}".format(rows[0][0]))
 
 	return [data.encode('utf-8')]
 
@@ -270,7 +387,7 @@ def delete_card(environ):
 	data =json.dumps(json_data, ensure_ascii=False, indent="\t")
 
 	shutil.rmtree('data/cards/{0}'.format(content['id']))
-	shutil.rmtree('nginx-1.13.6/html/cards/{0}'.format(content['id']))
+	shutil.rmtree('html/cards/{0}'.format(content['id']))
 
 	return [data.encode('utf-8')]
 

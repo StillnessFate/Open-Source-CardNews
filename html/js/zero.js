@@ -5,7 +5,7 @@
     var card = document.createElement('div');
     card.className = "card card-type-1";
     card.dataset.card_id = in_card_id;
-    card.dataset.pages = in_pages+2;
+    card.dataset.pages = in_pages;
     card.dataset.image = in_image;
 
     var wrapper = document.createElement('div');
@@ -128,8 +128,14 @@ $(document).ready(function () {
 
     load_card_news(function () {
         var card_news_id = getQuerystring('card_news_id');
+        var edit_mode = getQuerystring('edit_mode');
         if (card_news_id) {
-            open_card_news_viewer(card_news_id)
+            if (edit_mode) {
+                open_card_news_viewer(card_news_id, true)
+            }
+            else {
+                open_card_news_viewer(card_news_id)
+            }
         }
         
     //$(".lazy").slick({
@@ -318,8 +324,8 @@ $(document).ready(function () {
                         console.log("로그인 완료!");
                         console.log(data.name);
 
-                        Cookies.set('SESSION_ID', data.session_id);
-                        Cookies.set('USER_NAME', data.name);
+                        Cookies.set('SESSION_ID', data.session_id, {domain: location.hostname});
+                        Cookies.set('USER_NAME', data.name, { domain: location.hostname });
 
                         $('#mask.mask-login , .popup-login').fadeOut(300, function () {
                             disable_mask('mask-login')
@@ -529,7 +535,8 @@ $(document).ready(function () {
         var id = $('#card-news-viewer').data('card_id');
         var page = $(this).parent().data('page')
 
-        location.replace("/grapesjs-dev?id="+ id+"&page="+page);
+        window.location = "/grapesjs-dev?id=" + id + "&page=" + page;
+        //location.replace("/grapesjs-dev?id="+ id+"&page="+page);
     });
 
     $('#form-edit-card').on('click', '.edit_card_pages', function () {
@@ -543,6 +550,96 @@ $(document).ready(function () {
         });
         return false;
     });
+
+    $('#form-viewer').on('click', '.add-page', function () {
+        var id = $('#card-news-viewer').data('card_id');
+        var page = $(this).parent().data('page')
+        
+        var obj = new Object();
+        obj.id = id;
+        obj.page = page;
+        var json_data = JSON.stringify(obj);
+
+        var request = $.ajax({
+            url: "page_add.py",
+            type: "POST",
+            data: json_data,
+            dataType: "json",
+            timeout: 5000
+        });
+        enable_loading()
+        request.done(function (data) { // 결과 받음 (json)
+            if (data != null) {
+                if (data.error == 0) { // 성공
+                    console.log("추가 완료!");
+                    location.replace("/?card_news_id="+ id+"&edit_mode=1");
+                } else if (data.error == 1) {
+                    console.log("추가 실패! - 카드 없음");
+                } else if (data.error == 2) {
+                    console.log("추가 실패! - 권한 없음");
+                } else if (data.error == 10) {
+                    console.log("추가 실패! - 세션 만료");
+                    set_state_logout()
+                } else {
+                    console.log("추가 실패!");
+                }
+            }
+        });
+        request.fail(function (jqXHR, textStatus) { // 에러 발생
+            console.log("추가 오류 발생!");
+        });
+        request.always(function (jqXHR, textStatus) { // 정리
+            disable_loading()
+            load_card_news()
+        });
+        //location.replace("/grapesjs-dev?id=" + id + "&page=" + page);
+    });
+
+    $('#form-viewer').on('click', '.delete-page', function () {
+        var id = $('#card-news-viewer').data('card_id');
+        var page = $(this).parent().data('page')
+
+        var obj = new Object();
+        obj.id = id;
+        obj.page = page;
+        var json_data = JSON.stringify(obj);
+
+        var request = $.ajax({
+            url: "page_delete.py",
+            type: "POST",
+            data: json_data,
+            dataType: "json",
+            timeout: 5000
+        });
+        enable_loading()
+        request.done(function (data) { // 결과 받음 (json)
+            if (data != null) {
+                if (data.error == 0) { // 성공
+                    console.log("삭제 완료!");
+                    location.replace("/?card_news_id=" + id + "&edit_mode=1");
+                } else if (data.error == 1) {
+                    console.log("삭제 실패! - 카드 없음");
+                } else if (data.error == 2) {
+                    console.log("삭제 실패! - 권한 없음");
+                } else if (data.error == 10) {
+                    console.log("삭제 실패! - 세션 만료");
+                    set_state_logout()
+                } else {
+                    console.log("삭제 실패!");
+                }
+            }
+        });
+        request.fail(function (jqXHR, textStatus) { // 에러 발생
+            console.log("삭제 오류 발생!");
+        });
+        request.always(function (jqXHR, textStatus) { // 정리
+            disable_loading()
+            load_card_news()
+        });
+
+        //location.replace("/grapesjs-dev?id=" + id + "&page=" + page);
+    });
+    
 });
 
 //==========카드 내부 처리==========
@@ -716,7 +813,7 @@ function load_card_news(complete_function) {
             $.each(data, function (index, entry) {
                 for (i = 0; i < entry.length; i++) {
                     var card = entry[i]
-                    make_card(card["author"], card["title"], card["text"], card["image"], card["id"], 0)
+                    make_card(card["author"], card["title"], card["text"], card["image"], card["id"], card["pages"])
                 }
             });
         },
@@ -836,6 +933,12 @@ function open_card_news_viewer(id, edit_mode) {
             edit.className = 'button-s2 edit-page';
             edit.innerHTML = 'Edit';
             page.appendChild(edit);
+
+            var del = document.createElement('button');
+            del.type = 'button';
+            del.className = 'button-s2 delete-page';
+            del.innerHTML = 'Delete';
+            page.appendChild(del);
         }
 
         slider[0].appendChild(page);
@@ -851,8 +954,8 @@ function open_card_news_viewer(id, edit_mode) {
 
         var edit = document.createElement('button');
         edit.type = 'button';
-        edit.className = 'button-s2 edit-page';
-        edit.innerHTML = 'Edit';
+        edit.className = 'button-s2 add-page';
+        edit.innerHTML = 'New';
         page.appendChild(edit);
 
         slider[0].appendChild(page);

@@ -779,7 +779,25 @@
             });
 
 
+        editor.Panels.addButton
+            ('options',
+            [{
+                id: 'back-home',
+                className: 'fa fa-home',
+                command: 'back-home',
+                attributes: { title: 'Home' }
+            }]
+            );
 
+        // Add the command
+        editor.Commands.add
+            ('back-home',
+            {
+                run: function (editor, sender) {
+                    window.location = '/?card_news_id=' + getQuerystring('id') + '&edit_mode=1';
+                    //location.replace("/");
+                }
+            });
     editor.render();
     </script>
     <!-- <script src="zero.js"></script> -->
