@@ -875,11 +875,6 @@ function disable_mask(name) {
 
 //==========함수==========
 
-function edit_card_page(id) {
-    var card = $(this).closest('.slider-box');
-    console.log(id, card)
-}
-
 function getQuerystring(paramName) {
     var tempUrl = window.location.search.substring(1); //url에서 처음부터 '?'까지 삭제
     var tempArray = tempUrl.split('&'); // '&'을 기준으로 분리하기
@@ -985,20 +980,4 @@ function set_state_logout() {
 
     Cookies.remove('SESSION_ID');
     Cookies.remove('USER_NAME');
-}
-
-function test_f() {
-    i = Cookies.get('SESSION_ID');
-    console.log(i)
-
-    //var id = 11;
-    //var pages = $('.card[data-card_id="' + id + '"]')
-    //console.log(pages)
-    //var slider = $('.lazy.slider');
-    //var c = document.getElementsByClassName("card");
-
-    ////var cc = c.querySelector("[data-foo='" + id + "']");
-    //console.log(pages.data('pages'))
-    //slider.empty()
-    open_card_news_viewer(11)
 }
